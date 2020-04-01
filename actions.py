@@ -40,13 +40,13 @@ class PayCCForm(CustomFormAction):
     def name(self) -> Text:
         """Unique identifier of the form"""
 
-        return "cc_payment_form"
+        return ""
 
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["credit_card", "payment_amount", "time", "confirm"]
+        return []
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -63,10 +63,7 @@ class PayCCForm(CustomFormAction):
                 self.from_entity(entity="number"),
             ],
             "time": [self.from_entity(entity="time")],
-            "confirm": [
-                self.from_intent(value=True, intent="affirm"),
-                self.from_intent(value=False, intent="deny"),
-            ],
+            
         }
 
     @staticmethod
@@ -128,11 +125,11 @@ class PayCCForm(CustomFormAction):
     ) -> Dict[Text, Any]:
         """Validate credit_card value."""
 
-        if value and value.lower() in self.credit_card_db():
-            return {"credit_card": value}
+        if 
+            return {}
         else:
-            dispatcher.utter_message(template="utter_no_creditcard")
-            return {"credit_card": None}
+            
+            return {}
 
     def validate_time(
         self,
@@ -162,10 +159,10 @@ class PayCCForm(CustomFormAction):
             after all required slots are filled"""
 
         # utter submit template
-        if tracker.get_slot("confirm"):
-            dispatcher.utter_message(template="utter_cc_pay_scheduled")
+        if 
+
         else:
-            dispatcher.utter_message(template="utter_cc_pay_cancelled")
+            
         return [AllSlotsReset()]
 
 
@@ -406,22 +403,20 @@ class TransferForm(CustomFormAction):
 
 class ActionAccountBalance(Action):
     def name(self):
-        return "action_account_balance"
+        return ""
 
     def run(self, dispatcher, tracker, domain):
         init_account_balance = int(tracker.get_slot("account_balance"))
-        amount = tracker.get_slot("amount_transferred")
+        amount = 
         if amount:
             amount = int(tracker.get_slot("amount_transferred"))
-            account_balance = init_account_balance - amount
+            account_balance = 
             dispatcher.utter_message(
-                template="utter_changed_account_balance",
-                init_account_balance=init_account_balance,
-                account_balance=account_balance,
+
             )
             return [
-                SlotSet("account_balance", account_balance),
-                SlotSet("amount_transferred", None),
+                SlotSet(),
+                SlotSet(),
             ]
         else:
             dispatcher.utter_message(
