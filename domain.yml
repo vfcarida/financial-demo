@@ -29,6 +29,13 @@ entities:
 - PERSON
 - number
 slots:
+  account_balance:
+    type: unfeaturized
+    initial_value: 1000
+  time: 
+    type: unfeaturized
+  amount_of_money:
+    tyoe: unfeaturized
   PERSON:
     type: unfeaturized
   amount-of-money:
@@ -133,6 +140,8 @@ responses:
   utter_changed_account_balance:
   - text: "Your balance was ${init_account_balance} and is now ${account_balance} after the transfer"
 
+actions:
+- action_account_balance
 
 forms:
 - transfer_form

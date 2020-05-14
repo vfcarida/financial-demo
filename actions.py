@@ -40,13 +40,23 @@ class PayCCForm(CustomFormAction):
     def name(self) -> Text:
         """Unique identifier of the form"""
 
-        return ""
+        return "cc_payment_form"
+
+    def request_next_slot(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: Dict[Text, Any],
+        Optional[List[EventType]]:
+
+        return custom_request_next_slot(self, dispatcher, tracker, domain)
+
 
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return []
+        return ["credit_card", "payment_amount", "time", "confirm"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -63,7 +73,11 @@ class PayCCForm(CustomFormAction):
                 self.from_entity(entity="number"),
             ],
             "time": [self.from_entity(entity="time")],
-            
+            "confirm": [
+                self.from_intent(Value=True, intent=affirm),
+                self.from_intent(Value=False, intent=deny), 
+
+            ]
         }
 
     @staticmethod
@@ -125,11 +139,10 @@ class PayCCForm(CustomFormAction):
     ) -> Dict[Text, Any]:
         """Validate credit_card value."""
 
-        if 
-            return {}
+        if value and value.lower() in self.credit_card_db():
+            return {"credit_card": value}
         else:
-            
-            return {}
+            return {"credit_card": None}
 
     def validate_time(
         self,
@@ -159,11 +172,19 @@ class PayCCForm(CustomFormAction):
             after all required slots are filled"""
 
         # utter submit template
-        if 
-
+        if tracker.get_slot("confirm"):
+            dispatcher.utter_message(template = "utter_cc_pay_scheduled")
         else:
+            dispatcher.utter_message(template = "utter_cc_pay_cancelled")
             
-        return [AllSlotsReset()]
+        return [
+            SlotSet("credit_card", None),
+            SlotSet("payment_amount", None),
+            SlotSet("confirm", None),
+            SlotSet("time", None),
+            SlotSet("grain", None),
+            
+        ]
 
 
 class TransactSearchForm(CustomFormAction):
@@ -403,24 +424,28 @@ class TransferForm(CustomFormAction):
 
 class ActionAccountBalance(Action):
     def name(self):
-        return ""
+        return "action_account_blance"
 
     def run(self, dispatcher, tracker, domain):
         init_account_balance = int(tracker.get_slot("account_balance"))
-        amount = 
+        amount = tracker.get_slot("amount_transferred")
         if amount:
             amount = int(tracker.get_slot("amount_transferred"))
-            account_balance = 
+            account_balance = init_account_balance - amount
+            
             dispatcher.utter_message(
+                template = "utter_changed_account_balance", 
+                init_account_balance = f"{init_account_balance:.2f}"
+                account_balance = f"{account_balance:.2f}"
 
             )
             return [
-                SlotSet(),
-                SlotSet(),
+                SlotSet("account_balance", account_balance),
+                SlotSet("amount_transferred"), None)
             ]
         else:
             dispatcher.utter_message(
-                template="utter_account_balance",
+                template="utter_changed_account_balance",
                 init_account_balance=init_account_balance,
             )
             return []
