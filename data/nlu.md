@@ -1,4 +1,15 @@
+## intent:search_transactions
+- how much did I spend ar [target](vendor_name)?
+- what is my typical spending at [Amazon](vendor_name)?
+- how much did I spend at [Starbucks](vendor_name)?
+- I want to check my spending history as [starbucks](vendor_name)
 
+## intent:check_balance
+- how much money is on my account?
+- What's left on that account?
+- What is my account balance?
+- How much money is in my account
+- 
 
 ## intent:goodbye
 - see you later
