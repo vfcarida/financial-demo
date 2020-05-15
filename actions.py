@@ -47,10 +47,9 @@ class PayCCForm(CustomFormAction):
         dispatcher: "CollectingDispatcher",
         tracker: "Tracker",
         domain: Dict[Text, Any],
-    #)   Optional[List[EventType]]:
     ) -> Optional[List[EventType]]:
-        return custom_request_next_slot(self, dispatcher, tracker, domain)
 
+        return custom_request_next_slot(self, dispatcher, tracker, domain)
 
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
