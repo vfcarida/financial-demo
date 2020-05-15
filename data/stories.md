@@ -6,7 +6,15 @@
 * goodbye
   - utter_goodbye
 
-
+## pay credit card happy path
+* greet
+  - utter_greet
+* pay_cc
+  - cc_payment_form
+  - form{"name": "cc_payment_form"}
+  - form{"name": null}
+* thankyou
+  - utter_noworries  
 
 ## pay credit card and check account balance
 * pay_cc

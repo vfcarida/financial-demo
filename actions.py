@@ -47,8 +47,8 @@ class PayCCForm(CustomFormAction):
         dispatcher: "CollectingDispatcher",
         tracker: "Tracker",
         domain: Dict[Text, Any],
-        Optional[List[EventType]]:
-
+    #)   Optional[List[EventType]]:
+    ) -> Optional[List[EventType]]:
         return custom_request_next_slot(self, dispatcher, tracker, domain)
 
 
@@ -435,13 +435,13 @@ class ActionAccountBalance(Action):
             
             dispatcher.utter_message(
                 template = "utter_changed_account_balance", 
-                init_account_balance = f"{init_account_balance:.2f}"
-                account_balance = f"{account_balance:.2f}"
+                init_account_balance = f"{init_account_balance:.2f}",
+                account_balance = f"{account_balance:.2f}",
 
             )
             return [
                 SlotSet("account_balance", account_balance),
-                SlotSet("amount_transferred"), None)
+                SlotSet("amount_transferred", None),
             ]
         else:
             dispatcher.utter_message(

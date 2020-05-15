@@ -74,6 +74,12 @@ responses:
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
       charged. For subsequent transfers you will be charged $10 per transaction.
+  utter_ask_cc_payment_form_credit_card:
+  - text: Towards which credit card account do you want to make payment?
+  utter_ask_cc_payment_form_payment_amount:
+  - text: how much would you like to transfer?
+  utter_ask_cc_payment_form_time:
+  -text: When the transaction should br made?
   utter_ask_transact_search_form_vendor_name:
   - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
       Amazon
@@ -144,5 +150,6 @@ actions:
 - action_account_balance
 
 forms:
+- cc_payment_form
 - transfer_form
 - transact_search_form
